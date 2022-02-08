@@ -1,4 +1,4 @@
-const { createChannel, privateChannel } = require('../config.json');
+const { createChannel, existingChannel,privateChannel } = require('../config.json');
 
 module.exports = {
     name: 'voiceStateUpdate',
@@ -17,6 +17,24 @@ module.exports = {
                 edit,
                 rawPosition,
             } = channel
+
+            if (newState.channel.id === privateChannel) {
+                newState.guild.channels.create("Channel von " + newState.member.user.username, {
+                    type,
+                    bitrate,
+                    userLimit,
+                    parent: existingChannel,
+                    edit,
+                    position: rawPosition,
+                }).then((channel) => {
+                    newState.member.voice.setChannel(channel)
+                    //console.log(channel)
+                    channel.permissionOverwrites.edit(newState.member.user, {
+                        MANAGE_CHANNELS: true
+                    })
+                })
+                return;
+            }
 
             newState.guild.channels.create(channelName, {
                 type,
