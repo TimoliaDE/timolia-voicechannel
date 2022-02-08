@@ -49,16 +49,16 @@ module.exports = {
                     const welcomeEmbed = new MessageEmbed()
                         .setTitle("Hey " + newState.member.user.username)
                         .setDescription(
-                            "Es wurde ein Channel für dich erstellt und du hast die Berechtigungen erhalten diesen zu bearbeiten! \n" +
-                            "Jetzt kannnst du auf das Zahnrad auf dem Channel klicken und Einstellungen vornehmen, zum Beispiel kannst du den Channel Privat schalten" +
-                            " und nur dir und deinen Freunden zugriff auf diesen erteilen."
+                            "Es wurde ein privater Channel für dich erstellt! \n" +
+                            "Du kannst nun Personen in deinen Channel einladen in dem du diese einlädst. \n" +
+                            "Füge diese zu deinem Channel mit folgendem Befehl hinzu: \`\`\`/invite <\Person\>\`\`\`"
                         )
                         .setTimestamp();
 
                     // send person who creates the channel welcome embed
                     newState.member.user.send({embeds: [welcomeEmbed]}).then((message) => {
                         //delete message after 20 seconds
-                        message.delete({ timeout: 20000}) // <- this is ms
+                        setTimeout(() => message.delete(), 20000) // <- this is ms
                     });
                 })
                 return;

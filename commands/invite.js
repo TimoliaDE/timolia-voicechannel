@@ -43,9 +43,6 @@ module.exports = {
             .setColor("GREEN")
             .setTimestamp()
 
-        // send success embed
-        interaction.reply({ephemeral: true, embeds: [embed]});
-
         // embed for invited player
         const welcome = new MessageEmbed()
             .setTitle(`${client.user.username} • Invite`)
@@ -53,7 +50,20 @@ module.exports = {
             .setColor("GREEN")
             .setTimestamp()
 
-        // sends embed to player who got invited
+        // error user cant be added to channel
+        const notAUser = new MessageEmbed()
+            .setTitle(`${client.user.username} • Invite`)
+            .setDescription(`<@` + user.id + `> konnte nicht hinzugefügt werden weil er ein Bot ist!`)
+            .setColor("DARK_RED")
+            .setTimestamp()
+
+        // check if the user is a bot
+        if (user.bot === true || user.system === true) return interaction.reply({ephemeral: true, embeds: [notAUser]});
+
+        // send success embed
+        interaction.reply({ephemeral: true, embeds: [embed]});
+
+        // send user dm with info that he got added
         user.send({ephemeral: true, embeds: [welcome]})
     },
 };
