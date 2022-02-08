@@ -56,12 +56,15 @@ module.exports = {
                         .setTimestamp();
 
                     // send person who creates the channel welcome embed
-                    newState.member.user.send({ephemeral: true, embeds: [welcomeEmbed]});
+                    newState.member.user.send({embeds: [welcomeEmbed]}).then((message) => {
+                        //delete message after 20 seconds
+                        message.delete({ timeout: 20000}) // <- this is ms
+                    });
                 })
                 return;
             }
 
-            // its not a private channel so just copy the channel
+            // it is not a private channel so just copy the channel
             newState.guild.channels.create(channelName, {
                 type,
                 bitrate,
