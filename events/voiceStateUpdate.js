@@ -1,8 +1,9 @@
-const { createChannel, existingChannel,privateChannel } = require('../config.json');
+const { createChannel, existingChannel,privateChannel, guildId, everyoneId } = require('../config.json');
+const { MessageEmbed } = require('discord.js');
 
 module.exports = {
     name: 'voiceStateUpdate',
-    async execute(oldState, newState) {
+    async execute(oldState, newState, client) {
         if (newState.channel !== null && newState.channel.parent.id === createChannel) {
 
             const channelName = newState.channel.name;
@@ -27,11 +28,32 @@ module.exports = {
                     edit,
                     position: rawPosition,
                 }).then((channel) => {
+                    //Verschiebe Person in Channel
                     newState.member.voice.setChannel(channel)
-                    //console.log(channel)
+
+                    //Gebe Person Permissions in dem Channel
                     channel.permissionOverwrites.edit(newState.member.user, {
-                        MANAGE_CHANNELS: true
+                        CONNECT: true,
                     })
+
+                    const guild = client.guilds.cache.get(guildId); // Getting the guild
+                    const role = guild.roles.cache.get(everyoneId); // Getting the member
+
+                    channel.permissionOverwrites.edit(role, {
+                        CONNECT: false,
+                        VIEW_CHANNEL: false,
+                    })
+
+                    //Schicke Person Direktnachricht mit Infos
+                    const embed = new MessageEmbed()
+                        .setTitle("Hey " + newState.member.user.username)
+                        .setDescription(
+                            "Es wurde ein Channel für dich erstellt und du hast die Berechtigungen erhalten diesen zu bearbeiten! \n" +
+                            "Jetzt kannnst du auf das Zahnrad auf dem Channel klicken und Einstellungen vornehmen, zum Beispiel kannst du den Channel Privat schalten" +
+                            " und nur dir und deinen Freunden zugriff auf diesen erteilen."
+                        )
+                        .setTimestamp();
+                    newState.member.user.send({ephemeral: true, embeds: [embed]});
                 })
                 return;
             }
