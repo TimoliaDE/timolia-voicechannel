@@ -2,10 +2,10 @@ module.exports = {
 	name: 'ready',
 	once: true,
 	execute(client) {
-		//Bot gestartet
+		// little log in the console if the bot is started
 		console.log("Bot erfolgreich gestartet und eingeloggt als " + client.user.username);
 
-		//Rich Presence
+		// rich presence for invisible bot
 		client.user.setStatus('invisible');
 	},
 };

@@ -9,39 +9,51 @@ module.exports = {
         .addUserOption(option => option.setName('person').setDescription('Wähle eine Person welche du zu deinem Channel hinzufügen möchtest')),
     async execute(interaction, client) {
 
-        const fehler = new MessageEmbed()
+        // embed for if not in own channel
+        const errorEmbed = new MessageEmbed()
             .setTitle(`${client.user.username} • Invite`)
             .setDescription(`Du musst in deinem Privaten Channel sein um Personen hinzufügen zu können!`)
             .setColor("DARK_RED")
             .setTimestamp()
 
+        // global useful constants
         const user = interaction.options.getUser('person'); // Getting invited User
         const guild = client.guilds.cache.get(guildId); // Getting the guild
         const member = guild.members.cache.get(interaction.user.id); // Getting the member
 
+        // check if user is voice channel
         if (member.voice.channel) {
             const channel = member.voice.channel;
-            if (channel.name !== "Channel von " + member.user.username) return interaction.reply({ephemeral: true, embeds: [fehler]});
+            // if not in own channel
+            if (channel.name !== "Channel von " + member.user.username) return interaction.reply({ephemeral: true, embeds: [errorEmbed]});
+            //grant perms for invited user
             await channel.permissionOverwrites.edit(user, {
                 CONNECT: true,
                 VIEW_CHANNEL: true,
             })
         } else {
-            interaction.reply({ephemeral: true, embeds: [fehler]});
+            // send error embed
+            interaction.reply({ephemeral: true, embeds: [errorEmbed]});
         }
 
+        // success embed for command
         const embed = new MessageEmbed()
             .setTitle(`${client.user.username} • Invite`)
             .setDescription(`<@` + user.id + `> wurde zu deinem Channel hinzugefügt`)
-            .setTimestamp()
             .setColor("GREEN")
+            .setTimestamp()
+
+        // send success embed
         interaction.reply({ephemeral: true, embeds: [embed]});
 
+        // embed for invited player
         const welcome = new MessageEmbed()
             .setTitle(`${client.user.username} • Invite`)
-            .setDescription(`Du wurdest zum Channel von Channel von  ` + member.user.username + ` hinzugefügt und kannst dich nun mit diesem Verbinden`)
-            .setTimestamp()
+            .setDescription(`Du wurdest zum Channel von Channel von  ` + member.user.username + ` hinzugefügt!`)
             .setColor("GREEN")
+            .setTimestamp()
+
+        // sends embed to player who got invited
         user.send({ephemeral: true, embeds: [welcome]})
     },
 };

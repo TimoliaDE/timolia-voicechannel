@@ -1,5 +1,5 @@
 const fs = require('fs');
-const { Client, Collection, Intents, MessageActionRow, MessageButton, MessageEmbed } = require('discord.js');
+const { Client, Collection, Intents, MessageEmbed } = require('discord.js');
 const { token } = require('./config.json');
 
 //Intents
@@ -43,13 +43,13 @@ client.on('interactionCreate', async interaction => {
 		await command.execute(interaction, client);
 	} catch (error) {
 		console.error(error);
-		const reply = new MessageEmbed()
+		const errorEmbed = new MessageEmbed()
 			.setTitle(`${client.user.username} • Error`)
 			.setTimestamp(interaction.createdAt)
 			.setFooter({ text: `${client.user.username}`, iconURL: client.user.displayAvatarURL() })
-			.setDescription(`An error has occurred. Please contact <@398101340322136075>!\n\n Error:\n \`\`\`${error}\`\`\``)
+			.setDescription(`An error has occurred. Please contact <@398101340322136075>!`)
 			.setColor("#4680FC");
-		return interaction.reply({ephemeral: true, embeds: [reply]});
+		return interaction.reply({ephemeral: true, embeds: [errorEmbed]});
 	}
 });
 

@@ -11,6 +11,6 @@ module.exports = {
             .setDescription(`Latency is ${Date.now() - interaction.createdTimestamp}ms. API Latency is ${Math.round(client.ws.ping)}ms`)
             .setTimestamp(interaction.createdAt)
             .setFooter({ text: `${client.user.username}`, iconURL: client.user.displayAvatarURL() });
-        interaction.reply({embeds: [embed]});
+        interaction.reply({ephemeral: true, embeds: [embed]});
     },
 };
