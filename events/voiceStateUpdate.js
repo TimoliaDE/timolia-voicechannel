@@ -13,7 +13,7 @@ module.exports = {
             const channelId = joined ? newState.channelId : oldState.channelId
             let channel = newState.guild.channels.cache.get(channelId)
 
-            // const of schematic channel
+            // const of preset channel
             const {
                 type,
                 userLimit,
@@ -33,6 +33,16 @@ module.exports = {
                     edit,
                     position: rawPosition,
                 }).then((channel) => {
+                    // rate limit = user cant join channel for 10 sec
+                    newState.channel.parent.permissionOverwrites.edit(newState.member.user, {
+                        CONNECT: false,
+                    }).then((parent) => {
+                        setTimeout(() => parent.permissionOverwrites.edit(
+                            newState.member.user, {
+                                CONNECT: true,
+                            }),10000) // <- this is ms
+                    })
+
                     // move person in the channel
                     newState.member.voice.setChannel(channel)
 
@@ -73,6 +83,16 @@ module.exports = {
                 edit,
                 position: rawPosition,
             }).then((channel) => {
+                // rate limit = user cant join channel for 10 sec
+                newState.channel.parent.permissionOverwrites.edit(newState.member.user, {
+                    CONNECT: false,
+                }).then((parent) => {
+                    setTimeout(() => parent.permissionOverwrites.edit(
+                        newState.member.user, {
+                            CONNECT: true,
+                        }),10000) // <- this is ms
+                })
+
                 // and move the user in the new channel
                 newState.member.voice.setChannel(channel)
             })

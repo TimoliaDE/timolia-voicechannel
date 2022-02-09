@@ -44,11 +44,11 @@ client.on('interactionCreate', async interaction => {
 	} catch (error) {
 		console.error(error);
 		const errorEmbed = new MessageEmbed()
-			.setTitle(`${client.user.username} • Error`)
+			.setTitle(`${client.user.username} • Fehler`)
 			.setTimestamp(interaction.createdAt)
 			.setFooter({ text: `${client.user.username}`, iconURL: client.user.displayAvatarURL() })
-			.setDescription(`An error has occurred. Please contact <@398101340322136075>!`)
-			.setColor("#4680FC");
+			.setDescription(`Es ist ein Fehler aufgetreten, bitte wende dich an <@398101340322136075>!`)
+			.setColor("#ff0000");
 		return interaction.reply({ephemeral: true, embeds: [errorEmbed]});
 	}
 });
