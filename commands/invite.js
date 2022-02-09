@@ -6,7 +6,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('invite')
         .setDescription('Lade eine Person zu dir in den Channel ein')
-        .addUserOption(option => option.setName('person').setDescription('Wähle eine Person welche du zu deinem Channel hinzufügen möchtest')),
+        .addUserOption(option => option.setName('person').setDescription('Wähle eine Person welche du zu deinem Channel hinzufügen möchtest').setRequired(true)),
     async execute(interaction, client) {
 
         // embed for if not in own channel

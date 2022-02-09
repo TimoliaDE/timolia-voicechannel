@@ -52,7 +52,7 @@ module.exports = {
                     // remove perm of @everyone to join and see the channel
                     channel.permissionOverwrites.edit(role, {
                         CONNECT: false,
-                        VIEW_CHANNEL: false,
+                        //VIEW_CHANNEL: false, // -> persons should see the channel that they can see who is on the discord
                     })
 
                     //  welcomeEmbed for person who creates the channel
