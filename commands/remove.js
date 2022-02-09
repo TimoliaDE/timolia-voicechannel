@@ -6,7 +6,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('remove')
         .setDescription('Entferne eine Person aus deinem Channel')
-        .addUserOption(option => option.setName('person').setDescription('Wähle eine Person welche du aus deinem Channel entfernen möchtest').setRequired(true)),
+        .addUserOption(option => option.setName('person').setDescription('Wähle eine Person, welche du aus deinem Channel entfernen möchtest').setRequired(true)),
     async execute(interaction, client) {
 
         // embed for if not in own channel
@@ -41,21 +41,21 @@ module.exports = {
         // success embed for command
         const embed = new MessageEmbed()
             .setTitle(`${client.user.username} • Remove`)
-            .setDescription(`<@` + user.id + `> wurde von deinem Channel entfernt`)
+            .setDescription(`<@` + user.id + `> wurde aus deinem Channel entfernt!`)
             .setColor("GREEN")
             .setTimestamp()
 
         // embed for invited player
         const welcome = new MessageEmbed()
             .setTitle(`${client.user.username} • Remove`)
-            .setDescription(`Du wurdest aus dem Channel von Channel von  ` + member.user.username + ` entfernt!`)
+            .setDescription(`Du wurdest aus dem Channel von  ` + member.user.username + ` entfernt!`)
             .setColor("GREEN")
             .setTimestamp()
 
         // error user cant be added to channel
         const notAUser = new MessageEmbed()
             .setTitle(`${client.user.username} • Remove`)
-            .setDescription(`<@` + user.id + `> konnte nicht entfernt werden weil er ein Bot ist!`)
+            .setDescription(`<@` + user.id + `> konnte nicht entfernt werden, da er ein Bot ist!`)
             .setColor("DARK_RED")
             .setTimestamp()
 

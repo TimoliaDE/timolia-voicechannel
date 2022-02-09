@@ -61,7 +61,8 @@ module.exports = {
                         .setDescription(
                             "Es wurde ein privater Channel für dich erstellt! \n" +
                             "Du kannst nun Personen in deinen Channel einladen in dem du diese einlädst. \n" +
-                            "Füge diese zu deinem Channel mit folgendem Befehl hinzu: \`\`\`/invite <\Person\>\`\`\`"
+                            "Füge Personen mit folgendem Befehl zu deinem Channel hinzu: \`\`\` /invite USER\`\`\`" +
+                            "Entferne Personen aus deinem Channel mit folgendem Befehl: \`\`\`/remove USER\`\`\`"
                         )
                         .setTimestamp();
 

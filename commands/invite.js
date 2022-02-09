@@ -6,13 +6,13 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('invite')
         .setDescription('Lade eine Person zu dir in den Channel ein')
-        .addUserOption(option => option.setName('person').setDescription('Wähle eine Person welche du zu deinem Channel hinzufügen möchtest').setRequired(true)),
+        .addUserOption(option => option.setName('person').setDescription('Wähle eine Person, welche du in deinen Channel einladen möchtest').setRequired(true)),
     async execute(interaction, client) {
 
         // embed for if not in own channel
         const errorEmbed = new MessageEmbed()
             .setTitle(`${client.user.username} • Invite`)
-            .setDescription(`Du musst in deinem Privaten Channel sein um Personen hinzufügen zu können!`)
+            .setDescription(`Du musst in deinem privaten Channel sein um Personen einladen zu können!`)
             .setColor("DARK_RED")
             .setTimestamp()
 
@@ -39,21 +39,21 @@ module.exports = {
         // success embed for command
         const embed = new MessageEmbed()
             .setTitle(`${client.user.username} • Invite`)
-            .setDescription(`<@` + user.id + `> wurde zu deinem Channel hinzugefügt`)
+            .setDescription(`<@` + user.id + `> wurde in deinen Channel eingeladen!`)
             .setColor("GREEN")
             .setTimestamp()
 
         // embed for invited player
         const welcome = new MessageEmbed()
             .setTitle(`${client.user.username} • Invite`)
-            .setDescription(`Du wurdest zum Channel von Channel von  ` + member.user.username + ` hinzugefügt!`)
+            .setDescription(`Du wurdest in den Channel von  ` + member.user.username + ` eingeladen!`)
             .setColor("GREEN")
             .setTimestamp()
 
         // error user cant be added to channel
         const notAUser = new MessageEmbed()
             .setTitle(`${client.user.username} • Invite`)
-            .setDescription(`<@` + user.id + `> konnte nicht hinzugefügt werden weil er ein Bot ist!`)
+            .setDescription(`<@` + user.id + `> konnte nicht eingeladen werden, da er ein Bot ist!`)
             .setColor("DARK_RED")
             .setTimestamp()
 
