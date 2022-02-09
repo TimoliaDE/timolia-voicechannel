@@ -33,14 +33,14 @@ module.exports = {
                     edit,
                     position: rawPosition,
                 }).then((channel) => {
-                    // rate limit = user cant join channel for 10 sec
+                    // rate limit = user cant join channel for 20 sec
                     newState.channel.parent.permissionOverwrites.edit(newState.member.user, {
                         CONNECT: false,
                     }).then((parent) => {
                         setTimeout(() => parent.permissionOverwrites.edit(
                             newState.member.user, {
                                 CONNECT: true,
-                            }),10000) // <- this is ms
+                            }),20000) // <- this is ms
                     })
 
                     // move person in the channel
@@ -69,7 +69,7 @@ module.exports = {
                     newState.member.user.send({embeds: [welcomeEmbed]}).then((message) => {
                         //delete message after 20 seconds
                         setTimeout(() => message.delete(), 20000) // <- this is ms
-                    });
+                    }).catch(() => console.log(newState.member.user.username + " hat Direktnachrichten deaktiviert!"));
                 })
                 return;
             }
