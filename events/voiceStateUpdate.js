@@ -43,6 +43,11 @@ module.exports = {
                             }),20000) // <- this is ms
                     })
 
+                    // grant user access to own private channel
+                    channel.permissionOverwrites.edit(newState.member.user, {
+                        CONNECT: true,
+                    })
+
                     // move person in the channel
                     newState.member.voice.setChannel(channel)
 
@@ -62,7 +67,8 @@ module.exports = {
                             "Es wurde ein privater Channel für dich erstellt! \n" +
                             "Du kannst nun Personen in deinen Channel einladen in dem du diese einlädst. \n" +
                             "Füge Personen mit folgendem Befehl zu deinem Channel hinzu: \`\`\` /invite USER\`\`\`" +
-                            "Entferne Personen aus deinem Channel mit folgendem Befehl: \`\`\`/remove USER\`\`\`"
+                            "Entferne Personen aus deinem Channel mit folgendem Befehl: \`\`\`/remove USER\`\`\`" +
+                            "**Bitte beachte, dass diese Commands nur auf dem Server ausgeführt werden können:bangbang:**"
                         )
                         .setTimestamp();
 
