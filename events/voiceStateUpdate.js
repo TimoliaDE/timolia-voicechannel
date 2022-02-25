@@ -25,7 +25,7 @@ module.exports = {
             // check for private channel
             if (newState.channel.id === privateChannel) {
                 //create private channel
-                newState.guild.channels.create("Channel von " + newState.member.user.username, {
+                newState.guild.channels.create("Channel von " + newState.member.nickname, {
                     type,
                     bitrate,
                     userLimit,
