@@ -73,10 +73,9 @@ module.exports = {
                         .setTimestamp();
 
                     // send person who creates the channel welcome embed
-                    newState.member.user.send({embeds: [welcomeEmbed]}).then((message) => {
-                        //delete message after 20 seconds
-                        setTimeout(() => message.delete(), 20000) // <- this is ms
-                    }).catch(() => console.log(newState.member.user.username + " hat Direktnachrichten deaktiviert!"));
+                    newState.member.user.send({embeds: [welcomeEmbed]})
+                        //catch if user has disabled dms
+                        .catch(() => console.log(newState.member.user.username + " hat Direktnachrichten deaktiviert!"));
                 })
                 return;
             }
