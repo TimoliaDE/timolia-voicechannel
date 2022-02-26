@@ -26,7 +26,7 @@ module.exports = {
         if (member.voice.channel) {
             const channel = member.voice.channel;
             // if not in own channel
-            if (channel.name !== "Channel von " + member.user.username) return interaction.reply({ephemeral: true, embeds: [errorEmbed]});
+            if (channel.name !== "Channel von " + member.nickname) return interaction.reply({ephemeral: true, embeds: [errorEmbed]});
             //remove perms for removed user
             await channel.permissionOverwrites.edit(user, {
                 CONNECT: false,
@@ -48,7 +48,7 @@ module.exports = {
         // embed for invited player
         const welcome = new MessageEmbed()
             .setTitle(`${client.user.username} • Remove`)
-            .setDescription(`Du wurdest aus dem Channel von  ` + member.user.username + ` entfernt!`)
+            .setDescription(`Du wurdest aus dem Channel von  ` + member.nickname + ` entfernt!`)
             .setColor("GREEN")
             .setTimestamp()
 

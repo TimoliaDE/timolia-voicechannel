@@ -25,7 +25,7 @@ module.exports = {
         if (member.voice.channel) {
             const channel = member.voice.channel;
             // if not in own channel
-            if (channel.name !== "Channel von " + member.user.username) return interaction.reply({ephemeral: true, embeds: [errorEmbed]});
+            if (channel.name !== "Channel von " + member.nickname) return interaction.reply({ephemeral: true, embeds: [errorEmbed]});
             //grant perms for invited user
             await channel.permissionOverwrites.edit(user, {
                 CONNECT: true,
@@ -46,7 +46,7 @@ module.exports = {
         // embed for invited player
         const welcome = new MessageEmbed()
             .setTitle(`${client.user.username} • Invite`)
-            .setDescription(`Du wurdest in den Channel von  ` + member.user.username + ` eingeladen!`)
+            .setDescription(`Du wurdest in den Channel von  ` + member.nickname + ` eingeladen!`)
             .setColor("GREEN")
             .setTimestamp()
 

@@ -62,7 +62,7 @@ module.exports = {
 
                     //  welcomeEmbed for person who creates the channel
                     const welcomeEmbed = new MessageEmbed()
-                        .setTitle("Hey " + newState.member.user.username)
+                        .setTitle("Hey " + newState.member.nickname)
                         .setDescription(
                             "Es wurde ein privater Channel für dich erstellt! \n" +
                             "Du kannst nun Personen in deinen Channel einladen in dem du diese einlädst. \n" +
@@ -75,7 +75,7 @@ module.exports = {
                     // send person who creates the channel welcome embed
                     newState.member.user.send({embeds: [welcomeEmbed]})
                         //catch if user has disabled dms
-                        .catch(() => console.log(newState.member.user.username + " hat Direktnachrichten deaktiviert!"));
+                        .catch(() => console.log(newState.member.nickname + " hat Direktnachrichten deaktiviert!"));
                 })
                 return;
             }
