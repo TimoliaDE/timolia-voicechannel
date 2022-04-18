@@ -2,9 +2,14 @@ FROM node:latest
 
 WORKDIR /bot/
 
-COPY ./ /bot/
+COPY package.json package.json
+COPY config.json config.json
+COPY start.sh start.sh
+COPY index.js index.js
+COPY bot.js bot.js
 
 RUN npm install
 
-RUN chmod +x start.sh
-ENTRYPOINT ["start.sh"]
+RUN chmod +x /bot/start.sh
+
+ENTRYPOINT ["/bot/start.sh"]
