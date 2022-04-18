@@ -2,8 +2,8 @@ FROM node:latest
 
 WORKDIR /bot/
 
-COPY ./commands /commands
-COPY ./events /events
+COPY commands/ commands/
+COPY events/ events/
 COPY package.json package.json
 COPY config.json config.json
 COPY start.sh start.sh
