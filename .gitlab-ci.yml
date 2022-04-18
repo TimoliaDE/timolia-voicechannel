@@ -59,4 +59,4 @@ deploy_live:
   script:
     - bash deploy.sh
   only:
-    - mainr
+    - main
