@@ -1,6 +1,10 @@
 FROM node:latest
 
-WORKDIR /
+WORKDIR /bot/
+
+COPY ./ /bot/
+
 RUN npm install
+
 RUN chmod +x /start.sh
 ENTRYPOINT ["/start.sh"]
