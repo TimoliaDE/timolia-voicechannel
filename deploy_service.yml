@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: $SERVICE_NAME
+  labels:
+    app: voicechannelbot
+    env: $DEPLOY_ENV
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: voicechannelbot
+      env: $DEPLOY_ENV
+  template:
+    metadata:
+      labels:
+        app: voicechannelbot
+        env: $DEPLOY_ENV
+    spec:
+      containers:
+        - name: voicechannelbot
+          image: "$DOCKER_REGISTRY/discord/$IMAGE_NAME:$CI_PIPELINE_ID"
+          volumeMounts:
+            - name: config-volume
+              readOnly: true
+              mountPath: /etc/configs
+      volumes:
+        - name: config-volume
+          secret:
+            secretName: voicechannelbot-config-$DEPLOY_ENV
+      restartPolicy: Always
+      imagePullSecrets:
+        - name: regcred
