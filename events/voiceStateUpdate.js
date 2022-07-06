@@ -95,7 +95,7 @@ module.exports = {
                 }).then((parent) => {
                     setTimeout(() => parent.permissionOverwrites.edit(
                         newState.member.user, {
-                            CONNECT: true,
+                            CONNECT: null,
                         }),10000) // <- this is ms
                 })
 
