@@ -52,8 +52,6 @@ module.exports = {
                     // move person in the channel
                     newState.member.voice.setChannel(channel)
 
-                    const guild = client.guilds.cache.get(guildId); // Getting the guild
-
                     // remove perm of @everyone to join and see the channel
                     channel.permissionOverwrites.set([{
                         id: everyoneId,
