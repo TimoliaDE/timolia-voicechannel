@@ -1,5 +1,5 @@
 const { createChannel, existingChannel,privateChannel, guildId, everyoneId } = require('../config.json');
-const { EmbedBuilder } = require('discord.js');
+const { EmbedBuilder, GuildChannelType } = require('discord.js');
 
 module.exports = {
     name: 'voiceStateUpdate',
@@ -25,7 +25,8 @@ module.exports = {
             // check for private channel
             if (newState.channel.id === privateChannel) {
                 //create private channel
-                newState.guild.channels.create("Channel von " + newState.member.nickname, {
+                newState.guild.channels.create({
+                    name: "Channel von " + newState.member.nickname,
                     type,
                     bitrate,
                     userLimit,
@@ -81,7 +82,8 @@ module.exports = {
             }
 
             // it is not a private channel so just copy the channel
-            newState.guild.channels.create(channelName, {
+            newState.guild.channels.create({
+                name: channelName,
                 type,
                 bitrate,
                 userLimit,
