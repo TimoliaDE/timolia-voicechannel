@@ -34,13 +34,13 @@ module.exports = {
                     parent: existingChannel,
                     edit,
                     position: rawPosition,
-                    permissionOverwrites: [{
+                }).then((channel) => {
+                    // clear perms to allow joining again
+                    channel.parent.permissionOverwrites.set([{
                         // deny to rate limit = user cant join channel for 20 sec
                         id: newState.member.user.id,
                         deny: [PermissionFlagsBits.Connect],
-                    }]
-                }).then((channel) => {
-                    // clear perms to allow joining again
+                    }])
                     setTimeout(() => parent.permissionOverwrites.delete(newState.member.user.id), 20000) // <- this is ms
 
                     // grant user access to own private channel
