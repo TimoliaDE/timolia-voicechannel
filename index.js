@@ -1,4 +1,4 @@
-const { fs } = require('fs');
+const fs = require('fs');
 const { Client, GatewayIntentBits, Partials, Collection, EmbedBuilder} = require('discord.js');
 const { InteractionType } = require("discord-api-types/v10");
 const { token } = require('./config.json');
