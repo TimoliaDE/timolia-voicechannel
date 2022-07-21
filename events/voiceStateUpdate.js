@@ -41,7 +41,7 @@ module.exports = {
                     }]
                 }).then((channel) => {
                     // clear perms to allow joining again
-                    setTimeout(() => parent.permissionOverwrites.clear(), 20000) // <- this is ms
+                    setTimeout(() => parent.permissionOverwrites.delete(newState.member.user.id), 20000) // <- this is ms
 
                     // grant user access to own private channel
                     channel.permissionOverwrites.set([{
@@ -87,14 +87,15 @@ module.exports = {
                 parent: existingChannel,
                 edit,
                 position: rawPosition,
-                permissionOverwrites: [{
+            }).then((channel) => {
+                // rate limit = user cant join channel for 10 sec
+                newState.channel.parent.permissionOverwrites.set([{
                     // rate limit = user cant join channel for 10 sec
                     id: newState.member.user.id,
                     deny: [PermissionFlagsBits.Connect],
-                }]
-            }).then((channel) => {
-                // clear perms to allow joining again
-                setTimeout(() => parent.permissionOverwrites.clear(), 10000) // <- this is ms
+                }]).then((parent) => {
+                    setTimeout(() => parent.permissionOverwrites.delete(newState.member.user.id), 10000) // <- this is ms
+                })
 
                 // and move the user in the new channel
                 newState.member.voice.setChannel(channel)
