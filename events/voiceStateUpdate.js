@@ -1,5 +1,5 @@
 const { createChannel, existingChannel,privateChannel, guildId, everyoneId } = require('../config.json');
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 
 module.exports = {
     name: 'voiceStateUpdate',
@@ -61,7 +61,7 @@ module.exports = {
                     })
 
                     //  welcomeEmbed for person who creates the channel
-                    const welcomeEmbed = new MessageEmbed()
+                    const welcomeEmbed = new EmbedBuilder()
                         .setTitle("Hey " + newState.member.nickname)
                         .setDescription(
                             "Es wurde ein privater Channel für dich erstellt! \n" +

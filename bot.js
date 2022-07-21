@@ -1,14 +1,15 @@
 const fs = require('fs');
-const { Client, Collection, Intents, MessageEmbed } = require('discord.js');
+const { Client, GatewayIntentBits, Partials, Collection, EmbedBuilder} = require('discord.js');
+const { InteractionType } = require("discord-api-types/v10");
 const { token } = require('./config.json');
 
 //Intents
-const myIntents = new Intents();
-myIntents.add(Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_VOICE_STATES, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES);
+const myIntents = []
+myIntents.push(GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers, GatewayIntentBits.GuildVoiceStates, GatewayIntentBits.GuildMessages, GatewayIntentBits.DirectMessages);
 
 //Partials
 const myPartials = [];
-myPartials.push('MESSAGE', 'GUILD_MEMBER', 'CHANNEL');
+myPartials.push(Partials.Message, Partials.GuildMember, Partials.Channel);
 
 const client = new Client({ intents: myIntents, partials: myPartials });
 client.commands = new Collection();
@@ -26,14 +27,14 @@ for (const file of commandFiles) {
 for (const file of eventFiles) {
 	const event = require(`./events/${file}`);
 	if (event.once) {
-		client.once(event.name, (...args) => event.execute(...args, client));
+		client.rest.once(event.name, (...args) => event.execute(...args, client));
 	} else {
-		client.on(event.name, (...args) => event.execute(...args, client));
+		client.rest.on(event.name, (...args) => event.execute(...args, client));
 	}
 }
 
 client.on('interactionCreate', async interaction => {
-	if (!interaction.isCommand()) return;
+	if (interaction.type !== InteractionType.ApplicationCommand) return;
 
 	const command = client.commands.get(interaction.commandName);
 
@@ -43,7 +44,7 @@ client.on('interactionCreate', async interaction => {
 		await command.execute(interaction, client);
 	} catch (error) {
 		console.error(error);
-		const errorEmbed = new MessageEmbed()
+		const errorEmbed = new EmbedBuilder()
 			.setTitle(`${client.user.username} • Fehler`)
 			.setTimestamp(interaction.createdAt)
 			.setFooter({ text: `${client.user.username}`, iconURL: client.user.displayAvatarURL() })

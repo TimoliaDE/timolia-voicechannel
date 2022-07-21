@@ -1,5 +1,4 @@
-const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageEmbed } = require('discord.js');
+const { EmbedBuilder, SlashCommandBuilder, Colors} = require('discord.js');
 const { guildId } = require('../config.json');
 
 module.exports = {
@@ -10,10 +9,10 @@ module.exports = {
     async execute(interaction, client) {
 
         // embed for if not in own channel
-        const errorEmbed = new MessageEmbed()
+        const errorEmbed = new EmbedBuilder()
             .setTitle(`${client.user.username} • Remove`)
             .setDescription(`Du musst in deinem Privaten Channel sein um Personen entfernen zu können!`)
-            .setColor("DARK_RED")
+            .setColor(Colors.DarkRed)
             .setTimestamp()
 
         // global useful constants
@@ -39,24 +38,24 @@ module.exports = {
         }
 
         // success embed for command
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
             .setTitle(`${client.user.username} • Remove`)
             .setDescription(`<@` + user.id + `> wurde aus deinem Channel entfernt!`)
-            .setColor("GREEN")
+            .setColor(Colors.Green)
             .setTimestamp()
 
         // embed for invited player
-        const welcome = new MessageEmbed()
+        const welcome = new EmbedBuilder()
             .setTitle(`${client.user.username} • Remove`)
             .setDescription(`Du wurdest aus dem Channel von  ` + member.nickname + ` entfernt!`)
-            .setColor("GREEN")
+            .setColor(Colors.Green)
             .setTimestamp()
 
         // error user cant be added to channel
-        const notAUser = new MessageEmbed()
+        const notAUser = new EmbedBuilder()
             .setTitle(`${client.user.username} • Remove`)
             .setDescription(`<@` + user.id + `> konnte nicht entfernt werden, da er ein Bot ist!`)
-            .setColor("DARK_RED")
+            .setColor(Colors.DarkRed)
             .setTimestamp()
 
         // check if the user is a bot
