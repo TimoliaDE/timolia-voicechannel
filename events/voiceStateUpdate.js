@@ -1,5 +1,6 @@
 const { createChannel, existingChannel,privateChannel, guildId, everyoneId } = require('../config.json');
-const { EmbedBuilder, GuildChannelType } = require('discord.js');
+const { EmbedBuilder } = require('discord.js');
+const { PermissionFlagsBits } = require("discord-api-types/v10");
 
 module.exports = {
     name: 'voiceStateUpdate',
@@ -33,33 +34,31 @@ module.exports = {
                     parent: existingChannel,
                     edit,
                     position: rawPosition,
+                    permissionOverwrites: [{
+                        // deny to rate limit = user cant join channel for 20 sec
+                        id: newState.member.user.id,
+                        deny: [PermissionFlagsBits.Connect],
+                    }]
                 }).then((channel) => {
-                    // rate limit = user cant join channel for 20 sec
-                    newState.channel.parent.permissionOverwrites.edit(newState.member.user, {
-                        CONNECT: false,
-                    }).then((parent) => {
-                        setTimeout(() => parent.permissionOverwrites.edit(
-                            newState.member.user, {
-                                CONNECT: true,
-                            }),20000) // <- this is ms
-                    })
+                    // clear perms to allow joining again
+                    setTimeout(() => parent.permissionOverwrites.clear(), 20000) // <- this is ms
 
                     // grant user access to own private channel
-                    channel.permissionOverwrites.edit(newState.member.user, {
-                        CONNECT: true,
-                    })
+                    channel.permissionOverwrites.set([{
+                        id: newState.member.user.id,
+                        allow: [PermissionFlagsBits.Connect],
+                    }])
 
                     // move person in the channel
                     newState.member.voice.setChannel(channel)
 
                     const guild = client.guilds.cache.get(guildId); // Getting the guild
-                    const role = guild.roles.cache.get(everyoneId); // Getting the member
 
                     // remove perm of @everyone to join and see the channel
-                    channel.permissionOverwrites.edit(role, {
-                        CONNECT: false,
-                        //VIEW_CHANNEL: false, // -> persons should see the channel that they can see who is on the discord
-                    })
+                    channel.permissionOverwrites.set([{
+                        id: everyoneId,
+                        deny: [PermissionFlagsBits.Connect],
+                    }])
 
                     //  welcomeEmbed for person who creates the channel
                     const welcomeEmbed = new EmbedBuilder()
@@ -90,16 +89,14 @@ module.exports = {
                 parent: existingChannel,
                 edit,
                 position: rawPosition,
+                permissionOverwrites: [{
+                    // rate limit = user cant join channel for 10 sec
+                    id: newState.member.user.id,
+                    deny: [PermissionFlagsBits.Connect],
+                }]
             }).then((channel) => {
-                // rate limit = user cant join channel for 10 sec
-                newState.channel.parent.permissionOverwrites.edit(newState.member.user, {
-                    CONNECT: false,
-                }).then((parent) => {
-                    setTimeout(() => parent.permissionOverwrites.edit(
-                        newState.member.user, {
-                            CONNECT: null,
-                        }),10000) // <- this is ms
-                })
+                // clear perms to allow joining again
+                setTimeout(() => parent.permissionOverwrites.clear(), 10000) // <- this is ms
 
                 // and move the user in the new channel
                 newState.member.voice.setChannel(channel)

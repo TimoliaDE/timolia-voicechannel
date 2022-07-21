@@ -12,7 +12,7 @@ module.exports = {
         const errorEmbed = new EmbedBuilder()
             .setTitle(`${client.user.username} • Invite`)
             .setDescription(`Du musst in deinem privaten Channel sein um Personen einladen zu können!`)
-            .setColor("DARK_RED")
+            .setColor(Colors.DarkRed)
             .setTimestamp()
 
         // global useful constants
