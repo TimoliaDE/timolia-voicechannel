@@ -1,4 +1,4 @@
-const { createChannel, existingChannel,privateChannel, guildId, everyoneId } = require('../config.json');
+const { createChannel, existingChannel,privateChannel, everyoneId } = require('../config.json');
 const { EmbedBuilder } = require('discord.js');
 const { PermissionFlagsBits } = require("discord-api-types/v10");
 
@@ -36,12 +36,13 @@ module.exports = {
                     position: rawPosition,
                 }).then((channel) => {
                     // clear perms to allow joining again
-                    channel.parent.permissionOverwrites.set([{
+                    newState.channel.parent.permissionOverwrites.set([{
                         // deny to rate limit = user cant join channel for 20 sec
                         id: newState.member.user.id,
                         deny: [PermissionFlagsBits.Connect],
-                    }])
-                    setTimeout(() => parent.permissionOverwrites.delete(newState.member.user.id), 20000) // <- this is ms
+                    }]).then((parent) => {
+                        setTimeout(() => parent.permissionOverwrites.delete(newState.member.user.id), 20000) // <- this is ms
+                    })
 
                     // grant user access to own private channel
                     channel.permissionOverwrites.set([{
