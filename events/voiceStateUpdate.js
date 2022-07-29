@@ -95,7 +95,7 @@ module.exports = {
                     id: newState.member.user.id,
                     deny: [PermissionFlagsBits.Connect],
                 }]).then((parent) => {
-                    setTimeout(() => parent.permissionOverwrites.delete(newState.member.user.id), 10000) // <- this is ms
+                    setTimeout(() => parent.permissionOverwrites.delete(newState.member.user), 10000) // <- this is ms
                 })
 
                 // and move the user in the new channel

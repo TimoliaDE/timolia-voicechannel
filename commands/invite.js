@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder, Colors} = require('discord.js');
 const { guildId } = require('../config.json');
+const {PermissionFlagsBits} = require("discord-api-types/v10");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -26,10 +27,10 @@ module.exports = {
             // if not in own channel
             if (channel.name !== "Channel von " + member.nickname) return interaction.reply({ephemeral: true, embeds: [errorEmbed]});
             //grant perms for invited user
-            await channel.permissionOverwrites.edit(user, {
-                CONNECT: true,
-                VIEW_CHANNEL: true,
-            })
+            await channel.permissionOverwrites.set([{
+                id: user.id,
+                deny: [PermissionFlagsBits.Connect],
+            }])
         } else {
             // send error embed
             interaction.reply({ephemeral: true, embeds: [errorEmbed]});
