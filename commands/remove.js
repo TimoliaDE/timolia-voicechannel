@@ -1,5 +1,6 @@
 const { EmbedBuilder, SlashCommandBuilder, Colors} = require('discord.js');
 const { guildId } = require('../config.json');
+const {PermissionFlagsBits} = require("discord-api-types/v10");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -27,10 +28,10 @@ module.exports = {
             // if not in own channel
             if (channel.name !== "Channel von " + member.nickname) return interaction.reply({ephemeral: true, embeds: [errorEmbed]});
             //remove perms for removed user
-            await channel.permissionOverwrites.edit(user, {
-                CONNECT: false,
-                //VIEW_CHANNEL: true, <- you should see all channels
-            })
+            await channel.permissionOverwrites.set([{
+                id: user.id,
+                deny: [PermissionFlagsBits.Connect],
+            }])
             await removedMember.voice.setChannel(null);
         } else {
             // send error embed

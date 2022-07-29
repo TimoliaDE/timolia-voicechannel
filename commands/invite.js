@@ -29,7 +29,7 @@ module.exports = {
             //grant perms for invited user
             await channel.permissionOverwrites.set([{
                 id: user.id,
-                deny: [PermissionFlagsBits.Connect],
+                allow: [PermissionFlagsBits.Connect],
             }])
         } else {
             // send error embed
