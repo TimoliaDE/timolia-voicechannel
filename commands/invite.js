@@ -26,6 +26,10 @@ module.exports = {
             const channel = member.voice.channel;
             // if not in own channel
             if (channel.name !== "Channel von " + member.nickname) return interaction.reply({ephemeral: true, embeds: [errorEmbed]});
+
+            // check if the user is a bot
+            if (user.bot === true || user.system === true) return interaction.reply({ephemeral: true, embeds: [notAUser]});
+
             //grant perms for invited user
             await channel.permissionOverwrites.set([{
                 id: user.id,
@@ -56,9 +60,6 @@ module.exports = {
             .setDescription(`<@` + user.id + `> konnte nicht eingeladen werden, da er ein Bot ist!`)
             .setColor(Colors.DarkRed)
             .setTimestamp()
-
-        // check if the user is a bot
-        if (user.bot === true || user.system === true) return interaction.reply({ephemeral: true, embeds: [notAUser]});
 
         // send success embed
         interaction.reply({ephemeral: true, embeds: [embed]});
