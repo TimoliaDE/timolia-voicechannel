@@ -28,10 +28,10 @@ module.exports = {
             if (channel.name !== "Channel von " + member.nickname) return interaction.reply({ephemeral: true, embeds: [errorEmbed]});
 
             //grant perms for invited user
-            await channel.permissionOverwrites.set([{
-                id: user.id,
-                allow: [PermissionFlagsBits.Connect],
-            }])
+            await channel.permissionOverwrites.edit(user, {
+                Connect: true,
+                ViewChannel: true
+            });
         } else {
             // send error embed
             interaction.reply({ephemeral: true, embeds: [errorEmbed]});

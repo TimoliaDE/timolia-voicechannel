@@ -29,10 +29,10 @@ module.exports = {
             if (channel.name !== "Channel von " + member.nickname) return interaction.reply({ephemeral: true, embeds: [errorEmbed]});
 
             //remove perms for removed user
-            await channel.permissionOverwrites.set([{
-                id: user.id,
-                deny: [PermissionFlagsBits.Connect],
-            }])
+            await channel.permissionOverwrites.edit(user, {
+                Connect: false,
+                ViewChannel: true
+            });
             await removedMember.voice.setChannel(null);
         } else {
             // send error embed
