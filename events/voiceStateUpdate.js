@@ -81,7 +81,8 @@ module.exports = {
             }
 
             // it is not a private channel so just copy the channel
-            newState.guild.channels.create(channelName, {
+            newState.guild.channels.create({
+                name: channelName,
                 type,
                 bitrate,
                 userLimit,
