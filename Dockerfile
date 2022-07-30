@@ -9,7 +9,6 @@ COPY config.json config.json
 COPY start.sh start.sh
 COPY index.js index.js
 COPY deploy-commands.js deploy-commands.js
-COPY bot.js bot.js
 
 RUN npm install
 

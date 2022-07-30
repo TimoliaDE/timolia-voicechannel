@@ -1,5 +1,5 @@
-const { createChannel, existingChannel,privateChannel, guildId, everyoneId } = require('../config.json');
-const { MessageEmbed } = require('discord.js');
+const { createChannel, existingChannel, privateChannel, everyoneId } = require('../config.json');
+const { EmbedBuilder } = require('discord.js');
 
 module.exports = {
     name: 'voiceStateUpdate',
@@ -25,7 +25,8 @@ module.exports = {
             // check for private channel
             if (newState.channel.id === privateChannel) {
                 //create private channel
-                newState.guild.channels.create("Channel von " + newState.member.nickname, {
+                newState.guild.channels.create({
+                    name: "Channel von " + newState.member.nickname,
                     type,
                     bitrate,
                     userLimit,
@@ -35,33 +36,30 @@ module.exports = {
                 }).then((channel) => {
                     // rate limit = user cant join channel for 20 sec
                     newState.channel.parent.permissionOverwrites.edit(newState.member.user, {
-                        CONNECT: false,
+                        Connect: false,
                     }).then((parent) => {
                         setTimeout(() => parent.permissionOverwrites.edit(
                             newState.member.user, {
-                                CONNECT: true,
+                                Connect: true
                             }),20000) // <- this is ms
                     })
 
                     // grant user access to own private channel
                     channel.permissionOverwrites.edit(newState.member.user, {
-                        CONNECT: true,
+                        Connect: true,
                     })
 
                     // move person in the channel
                     newState.member.voice.setChannel(channel)
 
-                    const guild = client.guilds.cache.get(guildId); // Getting the guild
-                    const role = guild.roles.cache.get(everyoneId); // Getting the member
-
                     // remove perm of @everyone to join and see the channel
-                    channel.permissionOverwrites.edit(role, {
-                        CONNECT: false,
-                        //VIEW_CHANNEL: false, // -> persons should see the channel that they can see who is on the discord
+                    channel.permissionOverwrites.edit(channel.guild.roles.everyone, {
+                        Connect: false
+                        //ViewChannel: false, // -> persons should see the channel that they can see who is on the discord
                     })
 
                     //  welcomeEmbed for person who creates the channel
-                    const welcomeEmbed = new MessageEmbed()
+                    const welcomeEmbed = new EmbedBuilder()
                         .setTitle("Hey " + newState.member.nickname)
                         .setDescription(
                             "Es wurde ein privater Channel für dich erstellt! \n" +
@@ -81,7 +79,8 @@ module.exports = {
             }
 
             // it is not a private channel so just copy the channel
-            newState.guild.channels.create(channelName, {
+            newState.guild.channels.create({
+                name: channelName,
                 type,
                 bitrate,
                 userLimit,
@@ -91,11 +90,11 @@ module.exports = {
             }).then((channel) => {
                 // rate limit = user cant join channel for 10 sec
                 newState.channel.parent.permissionOverwrites.edit(newState.member.user, {
-                    CONNECT: false,
+                    Connect: false,
                 }).then((parent) => {
                     setTimeout(() => parent.permissionOverwrites.edit(
                         newState.member.user, {
-                            CONNECT: null,
+                            Connect: null,
                         }),10000) // <- this is ms
                 })
 
