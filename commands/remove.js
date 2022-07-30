@@ -31,7 +31,7 @@ module.exports = {
             //remove perms for removed user
             await channel.permissionOverwrites.edit(user, {
                 Connect: false,
-                ViewChannel: true
+                //ViewChannel: true, <- you should see all channels
             });
             await removedMember.voice.setChannel(null);
         } else {

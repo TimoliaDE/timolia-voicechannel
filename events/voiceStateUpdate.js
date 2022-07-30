@@ -55,24 +55,25 @@ module.exports = {
                     // remove perm of @everyone to join and see the channel
                     channel.permissionOverwrites.edit(channel.guild.roles.everyone, {
                         Connect: false
+                        //ViewChannel: false, // -> persons should see the channel that they can see who is on the discord
                     })
 
                     //  welcomeEmbed for person who creates the channel
                     const welcomeEmbed = new EmbedBuilder()
-                    .setTitle("Hey " + newState.member.nickname)
-                    .setDescription(
-                        "Es wurde ein privater Channel für dich erstellt! \n" +
-                        "Du kannst nun Personen in deinen Channel einladen in dem du diese einlädst. \n" +
-                        "Füge Personen mit folgendem Befehl zu deinem Channel hinzu: \`\`\` /invite USER\`\`\`" +
-                        "Entferne Personen aus deinem Channel mit folgendem Befehl: \`\`\`/remove USER\`\`\`" +
-                        "**Bitte beachte, dass diese Commands nur auf dem Server ausgeführt werden können:bangbang:**"
-                    )
-                    .setTimestamp();
+                        .setTitle("Hey " + newState.member.nickname)
+                        .setDescription(
+                            "Es wurde ein privater Channel für dich erstellt! \n" +
+                            "Du kannst nun Personen in deinen Channel einladen in dem du diese einlädst. \n" +
+                            "Füge Personen mit folgendem Befehl zu deinem Channel hinzu: \`\`\` /invite USER\`\`\`" +
+                            "Entferne Personen aus deinem Channel mit folgendem Befehl: \`\`\`/remove USER\`\`\`" +
+                            "**Bitte beachte, dass diese Commands nur auf dem Server ausgeführt werden können:bangbang:**"
+                        )
+                        .setTimestamp();
 
                     // send person who creates the channel welcome embed
                     newState.member.user.send({embeds: [welcomeEmbed]})
-                    //catch if user has disabled dms
-                    .catch(() => console.log(newState.member.nickname + " hat Direktnachrichten deaktiviert!"));
+                        //catch if user has disabled dms
+                        .catch(() => console.log(newState.member.nickname + " hat Direktnachrichten deaktiviert!"));
                 })
                 return;
             }
