@@ -53,7 +53,7 @@ module.exports = {
                     newState.member.voice.setChannel(channel)
 
                     // remove perm of @everyone to join and see the channel
-                    channel.permissionOverwrites.edit(everyoneId, {
+                    channel.permissionOverwrites.edit(channel.guild.roles.everyone, {
                         Connect: false
                     })
 
