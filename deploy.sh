@@ -20,7 +20,7 @@ fi
 
 # Write Kube Config
 mkdir -p ~/.kube
-echo $KUBE_CONFIG | base64 -d >> ~/.kube/config
+echo "${KUBE_CONFIG}" > ~/.kube/config
 
 # Open SSH Tunnel to Cluster
 mkdir -p ~/.ssh
