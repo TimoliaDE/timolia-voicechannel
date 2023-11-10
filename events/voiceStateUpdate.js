@@ -1,4 +1,4 @@
-const { createChannel, existingChannel, privateChannel, everyoneId } = require('../config.json');
+const { createChannel, existingChannel, privateChannel} = require('../config.json');
 const { EmbedBuilder } = require('discord.js');
 
 module.exports = {

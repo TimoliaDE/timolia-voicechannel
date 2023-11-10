@@ -1,6 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder, Colors} = require('discord.js');
 const { guildId } = require('../config.json');
-const {PermissionFlagsBits} = require("discord-api-types/v10");
 
 module.exports = {
     data: new SlashCommandBuilder()
